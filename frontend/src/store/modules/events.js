@@ -3,23 +3,23 @@ import axios from 'axios';
 const apiUrl = 'http://localhost:3000';
 
 const state = {
-  events: []
+  events: [],
 };
 
 const getters = {
-  events: state => state.events
-}
+  events: (state) => state.events,
+};
 
 const mutations = {
-  setEvents: (state, events) => (state.events = events)
-}
+  setEvents: (state, events) => (state.events = events),
+};
 
 const actions = {
   async fetchEvents({ commit }) {
     const response = await axios.get(`${apiUrl}/events`);
     commit('setEvents', response.data); // mutationの呼び出し
-  }
-}
+  },
+};
 
 export default {
   namespaced: true,
