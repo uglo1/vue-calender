@@ -7,7 +7,15 @@ const state = {
 };
 
 const getters = {
-  events: (state) => state.events,
+  // events: (state) => state.events
+  // 日付を文字列型から日付型へ変換する
+  events: state => state.events.map(event => {
+    return {
+      ...event,
+      start: new Date(event.start),
+      end: new Date(event.end)
+    };
+  }),
 };
 
 const mutations = {
