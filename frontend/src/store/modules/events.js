@@ -5,6 +5,7 @@ const apiUrl = 'http://localhost:3000';
 const state = {
   events: [],
   event: null, // クリックされた予定
+  isEditMode: false, // 編集モード変数
 };
 
 const getters = {
@@ -23,11 +24,15 @@ const getters = {
     start: new Date(state.event.start),
     end: new Date(state.event.end)
   }: null,
+
+  isEditMode: state => state.isEditMode,
 };
 
 const mutations = {
   setEvents: (state, events) => (state.events = events),
+  appendEvent: (state, event) => (state.events = [...state.events, event]),
   setEvent: (state, event) => (state.event = event),
+  setEditMode: (state, bool) => (state.isEditMode = bool),
 };
 
 const actions = {
@@ -35,9 +40,16 @@ const actions = {
     const response = await axios.get(`${apiUrl}/events`);
     commit('setEvents', response.data); // mutationの呼び出し
   },
+  async createEvent({ commit }, event){
+    const response = await axios.post(`${apiUrl}/events`, event);
+    commit('appendEvent', response.data);
+  },
   setEvent({ commit }, event) {
     commit('setEvent', event);
-  }
+  },
+  setEditMode({ commit }, bool) {
+    commit('setEditMode', bool)
+  },
 };
 
 export default {
