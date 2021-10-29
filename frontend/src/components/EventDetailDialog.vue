@@ -9,7 +9,7 @@
 
     <!-- イベントネーム -->
     <v-card-title>
-      <DialogSection icon="mdi-square" :color="event.color || 'blue'">
+      <DialogSection icon="mdi-square" :color="event.color">
         {{ event.name }}
       </DialogSection>
     </v-card-title>
@@ -20,14 +20,13 @@
         {{ event.start.toLocaleString() }} ~ {{ event.end.toLocaleString() }}
       </DialogSection>
     </v-card-text>
-    
+
     <!-- 説明 -->
     <v-card-text>
       <DialogSection icon="mdi-card-text-outline">
         {{ event.description || 'no description' }}
       </DialogSection>
     </v-card-text>
-
   </v-card>
 </template>
 
@@ -47,7 +46,7 @@ export default {
     ...mapActions('events', ['setEvent']),
     closeDialog() {
       this.setEvent(null);
-    }
-  }
-}
+    },
+  },
+};
 </script>

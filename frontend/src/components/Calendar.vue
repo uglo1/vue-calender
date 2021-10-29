@@ -18,17 +18,20 @@
         @change="fetchEvents"
         locale="ja-jp"
         :day-format="(timestamp) => new Date(timestamp.date).getDate()"
-        :month-format="(timestamp) => (new Date(timestamp.date).getMonth() + 1) + ' /'"
+        :month-format="
+          (timestamp) => new Date(timestamp.date).getMonth() + 1 + ' /'
+        "
         @click:event="showEvent"
         @click:day="initEvent"
       ></v-calendar>
     </v-sheet>
 
     <v-dialog :value="event !== null" @click:outside="closeDialog" width="600">
-      <EventDetailDialog v-if="event !== null && !isEditMode"></EventDetailDialog>
+      <EventDetailDialog
+        v-if="event !== null && !isEditMode"
+      ></EventDetailDialog>
       <EventFormDialog v-if="event !== null && isEditMode"></EventFormDialog>
     </v-dialog>
-
   </div>
 </template>
 
@@ -51,14 +54,14 @@ export default {
     ...mapGetters('events', ['events', 'event', 'isEditMode']),
     title() {
       return format(new Date(this.value), 'yyyy年 M月');
-    }
+    },
   },
   methods: {
     ...mapActions('events', ['fetchEvents', 'setEvent', 'setEditMode']),
     setToday() {
-      this.value = format(new Date(), 'yyyy/MM/dd')
+      this.value = format(new Date(), 'yyyy/MM/dd');
     },
-    showEvent( { nativeEvent,event} ) {
+    showEvent({ nativeEvent, event }) {
       this.setEvent(event);
       nativeEvent.stopPropagation();
     },
@@ -66,13 +69,13 @@ export default {
       this.setEvent(null);
       this.setEditMode(false);
     },
-    initEvent({ date }){
+    initEvent({ date }) {
       date = date.replace(/-/g, '/');
-      const start = format(new Date(date), 'yyyy/MM/dd 00:00:00')
-      const end = format(new Date(date), 'yyyy/MM/dd 01:00:00')
+      const start = format(new Date(date), 'yyyy/MM/dd 00:00:00');
+      const end = format(new Date(date), 'yyyy/MM/dd 01:00:00');
       this.setEvent({ name: '', start, end, timed: true });
       this.setEditMode(true);
-    }
+    },
   },
 };
 </script>
